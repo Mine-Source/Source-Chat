@@ -1,0 +1,78 @@
+name: NovaChat
+version: '${project.version}'
+main: dev.novachat.NovaChat
+api-version: '1.21'
+description: El chat definitivo - canales, items interactivos, moderacion, minijuegos, menus y PlaceholderAPI.
+authors: [NovaChat]
+softdepend: [PlaceholderAPI]
+
+commands:
+  novachat:
+    description: Comando principal de NovaChat
+    aliases: [nchat, nc]
+  msg:
+    description: Envia un mensaje privado
+    aliases: [m, w, tell, whisper]
+  reply:
+    description: Responde al ultimo mensaje privado
+    aliases: [r]
+  ignore:
+    description: Ignora o deja de ignorar a un jugador
+    aliases: [unignore]
+  channel:
+    description: Cambia de canal de chat
+    aliases: [ch]
+  mute:
+    description: Silencia a un jugador
+  unmute:
+    description: Quita el silencio a un jugador
+  clearchat:
+    description: Limpia el chat
+    aliases: [cc]
+  lockchat:
+    description: Bloquea o desbloquea el chat
+  slowmode:
+    description: Activa el modo lento del chat
+  chatspy:
+    description: Espia canales restringidos y mensajes privados
+    aliases: [spy]
+  broadcast:
+    description: Envia un anuncio a todo el servidor
+    aliases: [bc]
+
+permissions:
+  novachat.use:
+    default: true
+  novachat.admin:
+    default: op
+  novachat.mod:
+    default: op
+    description: Mute, clearchat, lockchat, slowmode y broadcast
+  novachat.spy:
+    default: op
+  novachat.minimessage:
+    default: op
+    description: Permite usar colores, degradados y estilos en el chat
+  novachat.emoji:
+    default: true
+  novachat.format.admin:
+    default: op
+    description: Usa el formato de chat de administrador
+  novachat.token.item:
+    default: true
+  novachat.token.inv:
+    default: true
+  novachat.token.ender:
+    default: true
+  novachat.token.pos:
+    default: true
+  novachat.bypass.filter:
+    default: op
+  novachat.bypass.links:
+    default: op
+  novachat.bypass.lock:
+    default: op
+  novachat.bypass.clear:
+    default: op
+  novachat.bypass.ignore:
+    default: op
