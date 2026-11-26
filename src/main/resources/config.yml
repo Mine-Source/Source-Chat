@@ -1,35 +1,60 @@
-# ╔══════════════════════════════════════════════════════════╗
-# ║  NovaChat — configuración                                ║
-# ║  Todo el texto usa MiniMessage: https://docs.advntr.dev/minimessage ║
-# ║  Si tienes PlaceholderAPI puedes usar %placeholders% en  ║
-# ║  los formatos (también se aceptan códigos &a y &#RRGGBB). ║
-# ╚══════════════════════════════════════════════════════════╝
+# ╔═══════════════════════════════════════════════════════════════════╗
+# ║  Source Chat 3.0 — configuración                                     ║
+# ║  Casi todo se puede hacer desde el juego: /sourcechat (menú)        ║
+# ║  Textos: carpeta lang/ (es.yml, en.yml, o crea otro idioma).      ║
+# ║  Formato de texto: MiniMessage · PlaceholderAPI opcional.         ║
+# ╚═══════════════════════════════════════════════════════════════════╝
 
-prefix: "<gradient:#8B5CF6:#22D3EE><bold>NovaChat</bold></gradient> <dark_gray>›</dark_gray> "
+prefix: "<gradient:#8B5CF6:#22D3EE><bold>Source Chat</bold></gradient> <dark_gray>›</dark_gray> "
 
+# ── Módulos ───────────────────────────────────────────────────────────
+# Si un módulo se desactiva (o falla) el chat sigue funcionando y no consume recursos.
+modules:
+  cosmetics: true       # tienda: prefijos, tags, color de nombre/chat, mensajes y títulos
+  namesync: true        # apodos + nombre en tab (displayName/playerListName)
+  games: true           # minijuegos de chat
+  announcements: true   # anuncios automáticos (announcements.yml)
+  discord: false        # chat -> Discord por webhook
+  tokens: true          # [item] [inv] [ender] [pos]
+  mentions: true        # @jugador
+  joinquit: true        # mensajes de entrada y salida
+
+# ── Idioma ────────────────────────────────────────────────────────────
+language:
+  default: es           # código de un archivo de lang/ (es, en, ...)
+  per-player: true      # cada jugador puede elegir el suyo con /lang
+
+# ── Identidad (servidores premium y no premium) ──────────────────────
+identity:
+  mode: auto            # auto = detecta online-mode · uuid · name (recomendado para cracked/proxies)
+
+# ── Economía ──────────────────────────────────────────────────────────
+economy:
+  provider: auto        # auto (Vault si existe, si no interna) · internal · vault
+  symbol: "⛁"
+
+# ── Chat ──────────────────────────────────────────────────────────────
 chat:
   enabled: true
-  cooldown-ms: 1200          # tiempo mínimo entre mensajes (0 = desactivado)
-  block-duplicates: true     # bloquea repetir el mismo mensaje
+  cooldown-ms: 1200
+  block-duplicates: true
   caps:
-    min-letters: 8           # mensajes con menos letras no se revisan
-    percent: 70              # % de mayúsculas a partir del cual se pasa a minúsculas
-  # Expresiones regulares (sin distinguir mayúsculas). Ejemplo: '\bpalabra\b'
-  blocked-words: []
+    min-letters: 8
+    percent: 70
+  blocked-words: []     # expresiones regulares (sin distinguir mayúsculas)
   anti-link:
     enabled: true
     regex: '(?:https?://|www\.)\S+|\b[a-z0-9-]{2,}\.(?:com|net|org|gg|io|xyz|es|mx|ar|co|tk|ml)\b'
-    whitelist: ["youtube.com", "youtu.be", "github.com"]   # dominios permitidos
+    whitelist: ["youtube.com", "youtu.be", "github.com"]
   anti-flood:
-    max-repeat: 4            # "holaaaaaaa" -> "holaaaa" (0 = desactivado)
-
+    max-repeat: 4       # "holaaaaaa" -> "holaaaa" (0 = desactivado)
   # Se usa el PRIMER formato cuyo permiso tenga el jugador ("" = todos).
-  # Placeholders: <channel> <player> <displayname> <message>
+  # Placeholders: <channel> <prefix> <tag> <player> <displayname> <message>
   formats:
-    - permission: "novachat.format.admin"
-      format: "<channel><dark_red><bold>ADMIN</bold></dark_red> <hover:show_text:'<gradient:#F43F5E:#F59E0B><bold><player></bold></gradient><newline><gray>Click para escribirle por privado'><click:suggest_command:'/msg <player> '><white><displayname></white></click></hover> <dark_gray>›</dark_gray> <white><message>"
+    - permission: "sourcechat.format.admin"
+      format: "<channel><prefix><tag><dark_red><bold>ADMIN</bold></dark_red> <hover:show_text:'<gradient:#F43F5E:#F59E0B><bold><player></bold></gradient><newline><gray>Click para escribirle por privado'><click:suggest_command:'/msg <player> '><displayname></click></hover> <dark_gray>›</dark_gray> <white><message>"
     - permission: ""
-      format: "<channel><hover:show_text:'<gradient:#8B5CF6:#22D3EE><bold><player></bold></gradient><newline><gray>Click para escribirle por privado'><click:suggest_command:'/msg <player> '><gray><displayname></gray></click></hover> <dark_gray>›</dark_gray> <white><message>"
+      format: "<channel><prefix><tag><hover:show_text:'<gradient:#8B5CF6:#22D3EE><bold><player></bold></gradient><newline><gray>Click para escribirle por privado'><click:suggest_command:'/msg <player> '><gray><displayname></gray></click></hover> <dark_gray>›</dark_gray> <white><message>"
 
 channels:
   default: global
@@ -45,11 +70,17 @@ channels:
       shortcut: "!"
     staff:
       display: "<dark_gray>[<red><bold>STAFF</bold></red>]</dark_gray> "
-      permission: "novachat.mod"
+      permission: "sourcechat.staffchat"
       shortcut: "#"
       format: "<channel><red><player></red> <dark_gray>›</dark_gray> <yellow><message>"
 
-# Texto que se convierte en algo interactivo en el chat. Ej: escribir "[discord]".
+staffchat:
+  channel: staff        # canal que alterna /staffchat
+
+helpop:
+  cooldown-seconds: 30
+
+# Texto del chat que se convierte en algo interactivo. Ej: escribir "[discord]".
 custom-placeholders:
   discord:
     trigger: "[discord]"
@@ -58,7 +89,7 @@ custom-placeholders:
     click:
       action: open_url
       value: "https://discord.gg/ejemplo"
-  coords:
+  spawn:
     trigger: "[spawn]"
     text: "<green>[Spawn]</green>"
     hover: "<gray>Click para ir al spawn"
@@ -66,10 +97,10 @@ custom-placeholders:
       action: run_command
       value: "/spawn"
 
-# :nombre: se reemplaza por el símbolo (permiso novachat.emoji).
+# :nombre: se reemplaza por el símbolo (permiso sourcechat.emoji).
 emojis:
   ":smile:": "☺"
-  ":heart:": "<3"
+  ":heart:": "❤"
   ":star:": "★"
   ":check:": "✔"
   ":x:": "✘"
@@ -77,145 +108,66 @@ emojis:
   ":fire:": "🔥"
   ":skull:": "☠"
   ":arrow:": "➜"
-  ":shrug:": "¯\\_(ツ)_/¯"
-
-announcements:
-  enabled: false
-  interval-seconds: 300
-  random: false
-  prefix: "<gradient:#8B5CF6:#22D3EE><bold>ANUNCIO</bold></gradient> <dark_gray>›</dark_gray> "
-  messages:
-    - "<gray>Usa <white>[item]</white> para mostrar lo que llevas en la mano."
-    - "<gray>Cambia tus preferencias con <white>/novachat menu</white>."
-
-# Envía el chat a Discord con un webhook (Ajustes del canal > Integraciones).
-discord:
-  enabled: false
-  webhook-url: ""
-  username: "NovaChat"
-  channels: [global]
 
 mentions:
-  enabled: true
   color: "#22D3EE"
   sound: "block.note_block.bell"
 
 tokens:
-  snapshot-minutes: 10       # cuánto tiempo se puede abrir un [inv] o [ender] compartido
+  snapshot-minutes: 10
 
-join-quit:
-  enabled: true
+welcome:
+  enabled: true         # mensaje de bienvenida privado (texto en lang/*.yml: welcome-message)
 
+# ── Anuncios ──────────────────────────────────────────────────────────
+# Se administran con /announce y se guardan en announcements.yml
+announcements:
+  prefix: "<gradient:#8B5CF6:#22D3EE><bold>SOURCE</bold></gradient> <dark_gray>›</dark_gray> "
+
+# ── Cosméticos ────────────────────────────────────────────────────────
+cosmetics:
+  auto-equip: true              # equipar al comprar
+  jointitle-audience: self      # self = solo el que entra · all = todos ven el título
+
+quick:                          # configuración rápida (/sourcechat quick, carpeta quick/)
+  base-price: 250               # precio común; rare x2, epic x4, legendary x8
+  small-caps: false             # tags en ꜱᴍᴀʟʟ ᴄᴀᴘꜱ
+  auto-scan-seconds: 30         # cada cuánto busca archivos nuevos en quick/ (0 = nunca)
+
+# ── Nombres, apodos y tab ─────────────────────────────────────────────
+namesync:
+  tab: true                     # el apodo/color también se ve en el tab (playerListName)
+  tab-format: "<prefix><name>"  # placeholders: <prefix> <tag> <name> <player> (+ PlaceholderAPI)
+  nametag: false                # prefijo/tag sobre la cabeza con equipos del scoreboard (puede chocar con otros plugins)
+
+nick:
+  min-length: 3                 # longitud visible (sin colores)
+  max-length: 16
+  max-raw-length: 140           # longitud con etiquetas de color
+  allowed-regex: "^[\\p{L}\\p{N}_ ]+$"
+  unique: true
+  blocked: ["admin", "owner", "staff", "mod"]
+
+# ── Minijuegos ────────────────────────────────────────────────────────
 games:
-  enabled: true
-  interval-seconds: 300      # cada cuánto aparece un juego
-  answer-seconds: 30         # tiempo para responder
+  interval-seconds: 300
+  answer-seconds: 30
   min-players: 2
-  types: [math, unscramble, type, trivia]
+  # math unscramble type trivia reverse missing item roman binary vowels guess sort
+  types: [math, unscramble, type, trivia, reverse, missing, item, roman, binary, vowels, guess, sort]
   sound: "entity.experience_orb.pickup"
-  words: [creeper, diamante, netherite, esqueleto, redstone, aldeano, obsidiana, enderman, encantamiento, pepita]
+  words: [creeper, diamante, netherite, esqueleto, redstone, aldeano, obsidiana, enderman, encantamiento, pepita, zombie, pickaxe, village, dragon, lightning]
   trivia:
     - { q: "¿Cuántos corazones tiene un jugador por defecto?", a: "10" }
     - { q: "¿Qué mob explota cerca de los jugadores?", a: "creeper" }
     - { q: "¿Qué material se necesita para encender un portal al Nether?", a: "obsidiana" }
+    - { q: "What drops from a Ghast when killed besides gunpowder?", a: "ghast tear" }
   rewards:
-    commands:               # %player% = ganador
-      - "give %player% diamond 1"
+    coins: 25                   # monedas (internas o Vault)
+    commands: []                # ej: "give %player% diamond 1"
 
-messages:
-  # --- Chat ---
-  chat-hidden-self: "<red>Tienes el chat oculto. Actívalo en <white>/novachat menu</white>."
-  cooldown: "<red>Espera <white><seconds>s</white> para volver a escribir."
-  duplicate: "<red>No repitas el mismo mensaje."
-  blocked: "<red>Tu mensaje contiene palabras no permitidas."
-  mention-actionbar: "<gradient:#8B5CF6:#22D3EE><bold>@</bold></gradient> <white><player></white> <gray>te mencionó"
-  token-inv: "<aqua>[🎒 Inventario de <player>]</aqua>"
-  token-ender: "<light_purple>[🔮 Ender Chest de <player>]</light_purple>"
-  token-pos: "<green>[📍 <x>, <y>, <z> · <world>]</green>"
-  token-empty-hand: "<gray>[Mano vacía]</gray>"
-  token-hover: "<gray>Click para ver el contenido"
-  token-pos-hover: "<gray>Click para copiar las coordenadas"
-  view-title-inv: "<dark_gray>Inventario de <player>"
-  view-title-ender: "<dark_gray>Ender Chest de <player>"
-  view-expired: "<red>Esa vista ya expiró."
-
-  # --- Mensajes privados ---
-  usage-msg: "<gray>Uso: <white>/msg <jugador> <mensaje>"
-  usage-reply: "<gray>Uso: <white>/r <mensaje>"
-  usage-ignore: "<gray>Uso: <white>/ignore <jugador>"
-  player-not-found: "<red>Ese jugador no está conectado."
-  msg-self: "<red>No puedes enviarte mensajes a ti mismo."
-  msg-ignored: "<red>Ese jugador no puede recibir tus mensajes."
-  msg-disabled: "<red>Ese jugador tiene los mensajes privados desactivados."
-  reply-none: "<red>No tienes a quién responder."
-  pm-from: "<dark_gray>[<gradient:#8B5CF6:#22D3EE><player></gradient> <dark_gray>→ <white>tú<dark_gray>] <gray><message>"
-  pm-to: "<dark_gray>[<white>tú <dark_gray>→ <gradient:#8B5CF6:#22D3EE><player></gradient><dark_gray>] <gray><message>"
-  ignore-on: "<green>Ahora ignoras a <white><player></white>."
-  ignore-off: "<green>Dejaste de ignorar a <white><player></white>."
-  ignore-self: "<red>No puedes ignorarte a ti mismo."
-  ignore-bypass: "<red>No puedes ignorar a ese jugador."
-
-  # --- Moderación v2 ---
-  muted: "<red>Estás silenciado (<white><time></white>). Razón: <white><reason>"
-  mute-default-reason: "Sin razón"
-  time-permanent: "permanente"
-  usage-mute: "<gray>Uso: <white>/mute <jugador> [tiempo] [razón]"
-  usage-unmute: "<gray>Uso: <white>/unmute <jugador>"
-  usage-slowmode: "<gray>Uso: <white>/slowmode <segundos|off>"
-  usage-broadcast: "<gray>Uso: <white>/broadcast <mensaje>"
-  mute-done: "<green><white><player></white> fue silenciado (<white><time></white>)."
-  unmute-done: "<green><white><player></white> ya puede hablar."
-  unmute-notify: "<green>Ya no estás silenciado."
-  not-muted: "<red><player> no está silenciado."
-  clearchat-done: "<gray>El chat fue limpiado por <white><player></white>."
-  lock-on: "<red>🔒 El chat fue bloqueado por <white><player></white>."
-  lock-off: "<green>🔓 El chat fue desbloqueado."
-  chat-locked: "<red>El chat está bloqueado temporalmente."
-  slow-on: "<yellow>🐌 Modo lento: <white><seconds>s</white> entre mensajes."
-  slow-off: "<green>Modo lento desactivado."
-  link-blocked: "<red>No se permiten enlaces en el chat."
-  spy-on: "<green>Espía de chat activado."
-  spy-off: "<red>Espía de chat desactivado."
-  spy-chat: "<dark_gray>[<gold>SPY</gold> · <channel>] <gray><player>: <message>"
-  spy-pm: "<dark_gray>[<gold>SPY</gold> · MP] <gray><from> → <to>: <message>"
-  channel-list: "<gray>Canal actual: <white><current></white> · Disponibles: <white><list>"
-  channel-unknown: "<red>Ese canal no existe o no tienes acceso."
-  channel-set: "<green>Ahora escribes en el canal <white><channel></white>."
-  broadcast-format: "<gradient:#8B5CF6:#22D3EE><bold>AVISO</bold></gradient> <dark_gray>›</dark_gray> <white><message>"
-
-  # --- Admin ---
-  no-permission: "<red>No tienes permiso."
-  only-players: "<red>Solo los jugadores pueden usar esto."
-  reloaded: "<green>Configuración recargada."
-  game-started-admin: "<green>Juego iniciado."
-  game-already: "<red>Ya hay un juego en curso."
-  game-stopped: "<green>Juego detenido."
-  game-none: "<red>No hay ningún juego activo."
-  help: "<gradient:#8B5CF6:#22D3EE><bold>NovaChat</bold></gradient><newline><gray>/novachat menu <dark_gray>- <white>preferencias<newline><gray>/msg, /r <dark_gray>- <white>mensajes privados<newline><gray>/ignore <dark_gray>- <white>ignorar jugadores<newline><gray>/channel <dark_gray>- <white>canales<newline><gray>/novachat reload|game <dark_gray>- <white>admin"
-
-  # --- Entrada / salida ---
-  join: "<dark_gray>[<green>+</green>] <gray><displayname>"
-  quit: "<dark_gray>[<red>-</red>] <gray><displayname>"
-
-  # --- Minijuegos ---
-  game-title-math: "Matemáticas"
-  game-title-unscramble: "Ordena las letras"
-  game-title-type: "Escribe primero"
-  game-title-trivia: "Trivia"
-  game-announce: "<newline><gradient:#8B5CF6:#22D3EE><bold>⚡ <title></bold></gradient><newline><white><question><newline><dark_gray>Tienes <white><seconds>s</white> · responde en el chat<newline>"
-  game-win: "<green>🏆 <white><player></white> acertó <gray>(<answer>)</gray> en <white><time>s</white>"
-  game-expired: "<red>⌛ Se acabó el tiempo. Respuesta: <white><answer>"
-
-  # --- Menú ---
-  menu-title: "<gradient:#8B5CF6:#22D3EE>NovaChat · Preferencias"
-  menu-on: "<green>● ACTIVADO <dark_gray>(click para cambiar)"
-  menu-off: "<red>○ DESACTIVADO <dark_gray>(click para cambiar)"
-  menu-close: "<red>Cerrar"
-  menu-mentions-name: "<aqua><bold>Menciones"
-  menu-mentions-desc: "<gray>Aviso en pantalla cuando te mencionan."
-  menu-sounds-name: "<yellow><bold>Sonidos"
-  menu-sounds-desc: "<gray>Sonidos de menciones, mensajes y juegos."
-  menu-messages-name: "<light_purple><bold>Mensajes privados"
-  menu-messages-desc: "<gray>Permite que te escriban por privado."
-  menu-chat-name: "<green><bold>Chat público"
-  menu-chat-desc: "<gray>Muestra u oculta el chat global."
+# ── Discord (módulo discord) ──────────────────────────────────────────
+discord:
+  webhook-url: ""
+  username: "Source Chat"
+  channels: [global]

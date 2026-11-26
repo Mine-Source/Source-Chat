@@ -1,15 +1,15 @@
-name: NovaChat
+name: SourceChat
 version: '${project.version}'
-main: dev.novachat.NovaChat
+main: dev.minesource.sourcechat.SourceChat
 api-version: '1.21'
-description: El chat definitivo - canales, items interactivos, moderacion, minijuegos, menus y PlaceholderAPI.
-authors: [NovaChat]
-softdepend: [PlaceholderAPI]
+description: El chat definitivo - canales, items interactivos, tienda de cosmeticos, moderacion, minijuegos, menus, idiomas y PlaceholderAPI.
+authors: [Mine Source]
+softdepend: [PlaceholderAPI, Vault]
 
 commands:
-  novachat:
-    description: Comando principal de NovaChat
-    aliases: [nchat, nc]
+  sourcechat:
+    description: Menu principal y administracion de Source Chat
+    aliases: [schat, nchat, nc]
   msg:
     description: Envia un mensaje privado
     aliases: [m, w, tell, whisper]
@@ -19,11 +19,19 @@ commands:
   ignore:
     description: Ignora o deja de ignorar a un jugador
     aliases: [unignore]
+  togglemsg:
+    description: Activa o desactiva los mensajes privados
+    aliases: [tm]
+  helpop:
+    description: Pide ayuda al staff
   channel:
     description: Cambia de canal de chat
     aliases: [ch]
+  staffchat:
+    description: Chat del staff (alterna el canal o envia un mensaje)
+    aliases: [sc]
   mute:
-    description: Silencia a un jugador
+    description: Silencia a un jugador (tiempo opcional)
   unmute:
     description: Quita el silencio a un jugador
   clearchat:
@@ -37,42 +45,96 @@ commands:
     description: Espia canales restringidos y mensajes privados
     aliases: [spy]
   broadcast:
-    description: Envia un anuncio a todo el servidor
+    description: Envia un aviso a todo el servidor
     aliases: [bc]
+  announce:
+    description: Administra y envia anuncios
+    aliases: [ann, anuncio]
+  chatgame:
+    description: Minijuegos de chat (top, stats, start, stop)
+    aliases: [cg]
+  cosmetics:
+    description: Tienda de cosmeticos de chat
+    aliases: [shop, tienda]
+  chatcolor:
+    description: Color de tu chat
+    aliases: [color]
+  namecolor:
+    description: Color de tu nombre
+  prefix:
+    description: Tu prefijo
+  tag:
+    description: Tu tag
+  joinmsg:
+    description: Tu mensaje de entrada
+  quitmsg:
+    description: Tu mensaje de salida
+  jointitle:
+    description: Tu titulo de entrada
+  nick:
+    description: Cambia tu apodo
+    aliases: [nickname]
+  realname:
+    description: Muestra el nombre real de un apodo
+  coins:
+    description: Consulta tus monedas
+  pay:
+    description: Envia monedas a otro jugador
+  lang:
+    description: Cambia tu idioma
+    aliases: [idioma, language]
 
 permissions:
-  novachat.use:
+  sourcechat.use:
     default: true
-  novachat.admin:
+  sourcechat.admin:
     default: op
-  novachat.mod:
+    description: Recarga, modulos, configuracion rapida, cosmeticos y monedas
+  sourcechat.mod:
     default: op
-    description: Mute, clearchat, lockchat, slowmode y broadcast
-  novachat.spy:
+    description: Mute, clearchat, lockchat, slowmode, broadcast y panel de staff
+  sourcechat.spy:
     default: op
-  novachat.minimessage:
+  sourcechat.staffchat:
+    default: op
+  sourcechat.announce:
+    default: op
+  sourcechat.helpop:
+    default: true
+  sourcechat.helpop.receive:
+    default: op
+  sourcechat.nick:
+    default: true
+  sourcechat.nick.color:
+    default: op
+    description: Colores y degradados en el apodo
+  sourcechat.nick.others:
+    default: op
+  sourcechat.nick.bypass:
+    default: op
+  sourcechat.minimessage:
     default: op
     description: Permite usar colores, degradados y estilos en el chat
-  novachat.emoji:
+  sourcechat.emoji:
     default: true
-  novachat.format.admin:
+  sourcechat.format.admin:
     default: op
     description: Usa el formato de chat de administrador
-  novachat.token.item:
+  sourcechat.token.item:
     default: true
-  novachat.token.inv:
+  sourcechat.token.inv:
     default: true
-  novachat.token.ender:
+  sourcechat.token.ender:
     default: true
-  novachat.token.pos:
+  sourcechat.token.pos:
     default: true
-  novachat.bypass.filter:
+  sourcechat.bypass.filter:
     default: op
-  novachat.bypass.links:
+  sourcechat.bypass.links:
     default: op
-  novachat.bypass.lock:
+  sourcechat.bypass.lock:
     default: op
-  novachat.bypass.clear:
+  sourcechat.bypass.clear:
     default: op
-  novachat.bypass.ignore:
+  sourcechat.bypass.ignore:
     default: op
